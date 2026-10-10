@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "whatsapp-sop-bot",
+  "main": "src/index.js",
+  "compatibility_date": "2026-01-01",
+
+  // Team directory (user:<phone> → {name, role, isAdmin}) and short-lived state
+  "kv_namespaces": [
+    { "binding": "TEAM", "id": "<your-team-kv-id>" },
+    { "binding": "STATE", "id": "<your-state-kv-id>" }
+  ],
+
+  "vars": {
+    "GROQ_CHAT_MODEL": "<groq-chat-model-id>",
+    "GROQ_WHISPER_MODEL": "whisper-large-v3",
+    "CONTEXT_TOKEN_BUDGET": "6000",
+    // Map each role to its primary SOP doc and optional read-only reference docs
+    "ROLE_DOCS": "{\"Sales\":{\"primary\":\"<google-doc-id>\",\"reference\":[\"<sales-playbook-doc-id>\"]},\"Operations\":{\"primary\":\"<google-doc-id>\",\"reference\":[]},\"Admin\":{\"primary\":\"<google-doc-id>\",\"reference\":[]}}"
+  }
+
+  // Secrets (set with `wrangler secret put <NAME>`, never commit):
+  //   WA_TOKEN, WA_PHONE_NUMBER_ID, WA_VERIFY_TOKEN,
+  //   GROQ_API_KEY, GOOGLE_SERVICE_ACCOUNT_JSON
+}
